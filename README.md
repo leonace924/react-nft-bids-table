@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# NFT Bids Table
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Fetch a list of Bids and render their details in a list/table format.
 
 ## Available Scripts
 
