@@ -1,0 +1,6 @@
+html {
+  @apply font-sans;
+}
+body {
+  @apply flex flex-col min-h-screen font-sans;
+}
