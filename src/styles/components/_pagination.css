@@ -1,0 +1,6 @@
+.pagination-item:not(.dots) {
+  @apply text-center text-base rounded-lg flex items-center justify-center cursor-pointer hover:text-white p-1 px-2 hover:bg-blue-300;
+}
+.pagination-item.arrow {
+  @apply w-8 h-8 rounded-full p-1 leading-none;
+}
