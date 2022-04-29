@@ -17,3 +17,5 @@ npm-debug.log
 *.iml
 *.pyc
 .env
+
+craco.config.js

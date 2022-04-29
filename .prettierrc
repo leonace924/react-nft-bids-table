@@ -6,5 +6,6 @@
   "trailingComma": "all",
   "jsxBracketSameLine": false,
   "noSemi": true,
-  "rcVerbose": true
+  "rcVerbose": true,
+  "tailwindConfig": "./tailwind.config.js"
 }
