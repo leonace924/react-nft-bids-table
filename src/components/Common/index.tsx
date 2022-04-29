@@ -5,3 +5,5 @@ export * from './Text';
 export * from './Title';
 export * from './Paragraph';
 export * from './Loading';
+export * from './Table';
+export * from './Pagination';
