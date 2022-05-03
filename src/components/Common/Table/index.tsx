@@ -1,10 +1,11 @@
 import React, { useState, useMemo } from 'react';
 import cx from 'classnames';
 import { Error, Pagination, View } from 'components/Common';
-import { useCurrencyFormatter } from 'hooks/useCurrencyFormatter';
-import { TableColumnList } from 'lib/constant';
+import { useNFTMeta } from 'hooks/useNFTMeta';
 import { useExpiredBid } from 'hooks/useExpiredBid';
 import { useRelativeTime } from 'hooks/useRelativeTime';
+import { useCurrencyFormatter } from 'hooks/useCurrencyFormatter';
+import { TableColumnList } from 'lib/constant';
 
 type TableProps<T> = {
   data?: T[];
@@ -27,6 +28,7 @@ export const Table = <T extends object>({ data, pageSize = 10 }: TableProps<T>) 
   const formatCurrency = useCurrencyFormatter();
   const relativeTime = useRelativeTime();
   const isExpiredBid = useExpiredBid();
+  const nftMeta = useNFTMeta();
 
   if (!data || !data.length) return <Error type="noData" />;
 
@@ -37,7 +39,7 @@ export const Table = <T extends object>({ data, pageSize = 10 }: TableProps<T>) 
   }, [currentPage, data, pageSize]);
 
   return (
-    <View className="inline-block">
+    <View className="overflow-auto lg:inline-block">
       <table className="border border-separate border-slate-400">
         <thead className="bg-slate-50">
           <tr>
@@ -47,16 +49,32 @@ export const Table = <T extends object>({ data, pageSize = 10 }: TableProps<T>) 
           </tr>
         </thead>
         <tbody>
-          {currentTableData?.map((item: any) => (
-            <tr key={item.id} className={cx({ 'bg-rose-200': isExpiredBid(item.expiration) })}>
-              <TableCell as="td">{item.id}</TableCell>
-              <TableCell as="td">{formatCurrency(item.price)}</TableCell>
-              <TableCell as="td">{item.bidder}</TableCell>
-              <TableCell as="td">{relativeTime(item.expiration)}</TableCell>
-            </tr>
-          ))}
+          {currentTableData?.map((item: any) => {
+            const { id, bidder, price, expiration, nft } = item;
+            const { image, name } = nftMeta(nft.contract, nft.id);
+
+            return (
+              <tr key={id} className={cx({ 'bg-rose-200': isExpiredBid(item.expiration) })}>
+                <TableCell as="td">{id}</TableCell>
+                <TableCell as="td">
+                  <img
+                    src={image}
+                    alt={id}
+                    onError={(e: any) => {
+                      e.target.src = 'http://via.placeholder.com/128x128';
+                    }}
+                  />
+                </TableCell>
+                <TableCell as="td">{name}</TableCell>
+                <TableCell as="td">{formatCurrency(price)}</TableCell>
+                <TableCell as="td">{bidder}</TableCell>
+                <TableCell as="td">{relativeTime(expiration)}</TableCell>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
+
       <View className="text-center">
         <Pagination
           className="inline-flex items-center gap-4 mt-4"
