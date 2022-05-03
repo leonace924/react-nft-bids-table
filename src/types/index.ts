@@ -1,4 +1,4 @@
-export type Bid = {
+export type BidDto = {
   id: string;
   price: string; // wei
   createdAt: number; // UTC timestamp
